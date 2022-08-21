@@ -1,0 +1,1 @@
+This is a random quote machine. It gives you a random quote on the first page load and you can get a new one by clicking the "New quote" button.
