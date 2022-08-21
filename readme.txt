@@ -1,1 +1,1 @@
-This is a random quote machine. It gives you a random quote on the first page load and you can get a new one by clicking the "New quote" button.
+This is a random quote machine. It gives you a random quote on the first page load and you can get a new one by clicking the "New quote" button. You can also tweet the quote on your twitter by clicking the "Tweet this!" link.
