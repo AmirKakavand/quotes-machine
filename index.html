@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Daily Quotes</title>
+    <link
+      rel="stylesheet"
+      href="./styles.css"
+    />
+  </head>
+  <body>
+    <div id="wrapper">
+      <div id="quote-box">
+        <div id="content-wrapper">
+          <div id="text"></div>
+          <div id="author">Author</div>
+        </div>
+        <div id="buttons">
+          <button id="new-quote">New quote</button>
+          <a id="tweet-quote" href="" target="_top">Tweet this!</a>
+        </div>
+      </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.0/jquery-ui.min.js"></script>
+    <script>
+      // general stuff
+let quotesData;
+let currentQuote;
+let currentAuthor;
+
+// get all quotes
+const getAllQuotes = () => {
+  return $.ajax({
+    headers: {
+      Accept: "application/json",
+    },
+    url: "https://gist.githubusercontent.com/camperbot/5a022b72e96c4c9585c32bf6a75f62d9/raw/e3c6895ce42069f0ee7e991229064f167fe8ccdc/quotes.json",
+    success: function (jsonQuotes) {
+      if (typeof jsonQuotes === "string") {
+        quotesData = JSON.parse(jsonQuotes);
+        console.log("quotesData");
+        console.log(quotesData);
+      }
+    },
+  });
+};
+
+// get a random quote and display it
+const showNewQuote = () => {
+  const randomNo = Math.floor(Math.random() * (100 - 1 + 1) + 1);
+  const newQuote = quotesData.quotes[randomNo].quote;
+  currentQuote = newQuote;
+
+  const newAuthor = quotesData.quotes[randomNo].author;
+  correntAuthor = newAuthor;
+  $("#text").html(`"${newQuote}"`);
+  $("#author").html(`by ${newAuthor}`);
+};
+
+// tweet quote functionality
+const tweetQuote = () => {
+  $("#tweet-quote").attr(
+    "href",
+    "https://twitter.com/intent/tweet?hashtags=quotes&related=freecodecamp&text=" +
+      encodeURIComponent('"' + currentQuote + '" ' + currentAuthor)
+  );
+
+  $("#tumblr-quote").attr(
+    "href",
+    "https://www.tumblr.com/widgets/share/tool?posttype=quote&tags=quotes,freecodecamp&caption=" +
+      encodeURIComponent(currentAuthor) +
+      "&content=" +
+      encodeURIComponent(currentQuote) +
+      "&canonicalUrl=https%3A%2F%2Fwww.tumblr.com%2Fbuttons&shareSource=tumblr_share_button"
+  );
+};
+
+// things to do on first page load
+$(document).ready(() => {
+  getAllQuotes().then(() => {
+    showNewQuote();
+  });
+});
+
+$("#new-quote").on("click", () => {
+  showNewQuote();
+});
+
+$("#tweet-quote").on("click", () => {
+  tweetQuote();
+});
+
+    </script>
+  </body>
+</html>
